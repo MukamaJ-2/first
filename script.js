@@ -1,6 +1,8 @@
+// DOM Elements
 const text = document.getElementById('text');
 const buttonId = document.getElementById('click');
 const colorInput = document.getElementById('colorInput');
+const colorNameInput = document.getElementById('colorNameInput');
 const errorMessage = document.getElementById('errorMessage');
 
 // Greeting function
@@ -10,25 +12,63 @@ function greet() {
 
 // Background color change function
 function bg() {
-    const color = colorInput.value;
+    const colorPickerValue = colorInput.value;
+    const colorNameValue = colorNameInput.value.trim();
+    
+    // Reset error message
+    errorMessage.textContent = '';
     
     try {
-        // Test if the color is valid
+        // Check if text input is empty
+        if (!colorNameValue && !colorPickerValue) {
+            throw new Error('Please enter a color name or use the color picker');
+        }
+
+        // Create a temporary element to test the color
         const temp = document.createElement('div');
-        temp.style.backgroundColor = color;
+        
+        // If color name is provided, use it; otherwise use the color picker value
+        const colorToTest = colorNameValue || colorPickerValue;
+        
+        // Test if the color is valid
+        temp.style.backgroundColor = colorToTest;
         
         if (temp.style.backgroundColor === '') {
-            throw new Error('Invalid color');
+            throw new Error(`"${colorNameValue}" is not a valid color name`);
         }
         
-        // Clear any previous error
-        errorMessage.textContent = '';
         // Apply the color to the background
-        document.body.style.backgroundColor = color;
+        document.body.style.backgroundColor = colorToTest;
+        
+        // Sync the color picker with the text input if a valid color name was used
+        if (colorNameValue) {
+            const tempElement = document.createElement('div');
+            tempElement.style.backgroundColor = colorNameValue;
+            const computedColor = window.getComputedStyle(tempElement).backgroundColor;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = computedColor;
+            ctx.fillRect(0, 0, 1, 1);
+            const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+            const hex = '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+            colorInput.value = hex;
+        }
+
+        // Clear the text input if color was successfully applied
+        if (!colorNameValue) {
+            colorNameInput.value = '';
+        }
+
     } catch (err) {
-        errorMessage.textContent = 'Please select a valid color';
+        // Show specific error message
+        errorMessage.textContent = err.message;
         // Set default color if there's an error
-        document.body.style.backgroundColor = 'green';
+        document.body.style.backgroundColor = 'white';
+        // Clear the text input on error
+        colorNameInput.value = '';
     }
 }
 
@@ -41,7 +81,7 @@ function toggleText() {
 
 // Button click event
 buttonId.onclick = function() {
-    alert("Button was clicked.");
+    alert("Button has been clicked.");
 }
 
 // Mouse events for the button
