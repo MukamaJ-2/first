@@ -7,16 +7,24 @@
 </head>
 <body>
     <div>
-        <button onclick="alert('Hello Joseph Mukama')">Click me</button>
-        <p id="text">This is the first HTML, CSS and JavaScript fusion</p>
-        <button onclick="toggleText()">Change Text</button>
-        <button id="click">Internal Javascript Click</button>
         <div>
-            <input type="color" id="colorInput">
-            <button onclick="bg()">Change Background</button>
-            <div id="errorMessage"></div>
+            <button onclick="alert('Hello Joseph Mukama')">Click me</button>
+            <button onclick="toggleText()">Change Text</button>
+            <button id="click">Internal Javascript Click</button>
+        </div>
+
+        <p id="text">This is the first HTML, CSS and JavaScript fusion</p>
+
+        <div>
+            <div>
+                <input type="color" id="colorInput" value="#ffffff">
+                <input type="text" id="colorNameInput" placeholder="Any color name">
+                <button onclick="bg()">Change Background</button>
+            </div>
+            <div id="errorMessage" style="color: red;"></div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
