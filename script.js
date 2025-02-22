@@ -1,12 +1,11 @@
-// DOM Elements
 const text = document.getElementById('text');
 const buttonId = document.getElementById('click');
 const colorInput = document.getElementById('colorInput');
 const errorMessage = document.getElementById('errorMessage');
 
-// Greeting function (from original onload)
+// Greeting function
 function greet() {
-    console.log("Page loaded successfully!");
+    console.log("Hello Joseph Mukama");
 }
 
 // Background color change function
@@ -27,7 +26,7 @@ function bg() {
         // Apply the color to the background
         document.body.style.backgroundColor = color;
     } catch (err) {
-        errorMessage.innerHTML = 'Please select a valid color';
+        errorMessage.textContent = 'Please select a valid color';
         // Set default color if there's an error
         document.body.style.backgroundColor = 'green';
     }
@@ -42,7 +41,7 @@ function toggleText() {
 
 // Button click event
 buttonId.onclick = function() {
-    alert("Button has been clicked.");
+    alert("Button was clicked.");
 }
 
 // Mouse events for the button
